@@ -8,35 +8,84 @@
 </head>
 <body>
     <header class="app-header">
-        <h1>Quran PESAT Final</h1>
-        <nav>
-            <button id="nav-quran" class="active">Al-Qur'an</button>
-            <button id="nav-murajaah">Mentor Murajaah</button>
+        <h1>Quran PESAT</h1>
+        <nav aria-label="Menu utama">
+            <button id="nav-quran" class="active" aria-current="page">Al-Qur'an</button>
+            <button id="nav-murajaah">AI Mentor Murajaah</button>
         </nav>
     </header>
 
     <main class="container">
         <!-- Tampilan Menu Al-Qur'an -->
         <section id="view-quran" class="view active-view">
-            <div class="surah-selector-container">
-                <label for="surah-select">Pilih Surat:</label>
-                <select id="surah-select">
-                    <option value="" disabled selected>Memuat daftar surat...</option>
-                </select>
+            <div class="section-heading">
+                <div><div class="eyebrow muted">BACA & RENUNGKAN</div><h2>Al-Qur’an</h2><p>Cari surat, lalu pilih untuk menampilkan ayat dan terjemahannya.</p></div>
             </div>
-            <div id="quran-content">
+            <div class="reader-mode-toolbar">
+                <div class="reader-mode-switch" role="group" aria-label="Mode tampilan Al-Qur’an">
+                    <button id="mode-reading" type="button" aria-pressed="true">Mode baca</button>
+                    <button id="mode-mushaf" type="button" aria-pressed="false">Mode mushaf</button>
+                </div>
+                <p id="reader-mode-hint">Ayat dan terjemahan ditampilkan per bagian.</p>
+            </div>
+            <div class="saved-reading">
+                <button id="resume-reading" class="audio-button" hidden>Lanjutkan bacaan terakhir</button>
+                <details><summary>Bookmark ayat <span id="bookmark-count">0</span></summary><div id="bookmark-list" class="bookmark-list"></div></details>
+                <p id="storage-status" class="audio-status">Bacaan dan bookmark tersimpan di browser ini, tanpa database.</p>
+            </div>
+            <div class="reader-toolbar">
+                <div class="surah-selector-container">
+                    <span class="field-label" id="surah-label">Pilih surat</span>
+                    <div class="surah-picker" id="surah-picker">
+                        <button type="button" id="surah-select" class="surah-trigger" aria-expanded="false" aria-controls="surah-dropdown" aria-labelledby="surah-label selected-surah" disabled>
+                            <span id="selected-surah">Memuat daftar surat…</span><span aria-hidden="true">⌄</span>
+                        </button>
+                        <div id="surah-dropdown" class="surah-dropdown" hidden>
+                            <label class="sr-only" for="surah-search">Cari nama atau nomor surat</label>
+                            <input id="surah-search" type="search" placeholder="Cari nama atau nomor surat…" autocomplete="off" aria-controls="surah-results">
+                            <p id="search-status" class="search-status" role="status"></p>
+                            <div id="surah-results" class="surah-results" role="group" aria-label="Hasil pencarian surat"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reading-settings">
+                    <label class="translation-toggle"><input type="checkbox" id="show-translation" checked> Terjemahan</label>
+                    <div class="font-control" role="group" aria-label="Ukuran teks Arab"><button id="font-decrease" aria-label="Perkecil teks Arab">A−</button><button id="font-increase" aria-label="Perbesar teks Arab">A+</button></div>
+                </div>
+            </div>
+            <section id="audio-panel" class="audio-panel" aria-label="Pemutar tilawah" hidden>
+                <div class="audio-heading">
+                    <div><span class="eyebrow muted">DENGARKAN & IKUTI</span><h3 id="audio-title">Audio surat</h3></div>
+                    <button type="button" id="play-surah" class="audio-button">▶ Putar surat lengkap</button>
+                </div>
+                <div class="memorization-controls">
+                    <label>Qari<select id="qari-select">
+                        <option value="01">Abdullah Al-Juhany</option><option value="02">Abdul Muhsin Al-Qasim</option><option value="03">Abdurrahman As-Sudais</option><option value="04">Ibrahim Al-Dossari</option><option value="05">Misyari Rasyid Al-Afasy</option><option value="06">Yasser Al-Dosari</option>
+                    </select></label>
+                    <label>Dari ayat<input id="range-start" type="number" min="1" value="1"></label>
+                    <label>Sampai ayat<input id="range-end" type="number" min="1" value="1"></label>
+                    <label>Ulangi rentang<select id="range-repeat"><option value="1">1 kali</option><option value="3" selected>3 kali</option><option value="5">5 kali</option><option value="10">10 kali</option></select></label>
+                </div>
+                <div class="memorization-actions"><button id="start-memorization" class="audio-button">▶ Mulai hafalan</button><button id="stop-memorization" class="audio-button" disabled>Hentikan hafalan</button><span id="memorization-status" role="status"></span></div>
+                <audio id="quran-audio" controls preload="none" aria-labelledby="audio-title">Browser Anda tidak mendukung pemutar audio.</audio>
+                <p id="audio-status" class="audio-status" role="status">Tekan play untuk mendengarkan.</p>
+            </section>
+            <div id="quran-content" aria-busy="false" tabindex="-1">
                 <div class="placeholder-message">Silakan pilih surat untuk membaca.</div>
             </div>
         </section>
 
-        <!-- Tampilan Menu Mentor Murajaah -->
+        <!-- Tampilan Menu AI Mentor Murajaah -->
         <section id="view-murajaah" class="view">
             <div id="murajaah-setup">
-                <h2>Mentor Murajaah</h2>
+                <h2>AI Mentor Murajaah</h2>
+                <p class="mentor-description">Latihan otomatis untuk menguatkan hafalan. Fitur ini belum menggunakan model AI.</p>
+                <p class="mentor-description">Selesaikan 10 soal, lihat evaluasi, lalu ulangi soal yang belum tepat. Pada surat pendek, beberapa ayat akan muncul kembali.</p>
                 <p id="murajaah-surah-info">Pilih surat di menu Al-Qur'an terlebih dahulu.</p>
                 <div class="murajaah-modes" style="display: none;">
                     <button id="mode-tebak-ayat" class="mode-btn">Tebak Nomor Ayat</button>
                     <button id="mode-sambung-ayat" class="mode-btn">Sambung Ayat</button>
+                    <button id="mode-audio-ayat" class="mode-btn">Sambung dari Audio</button>
                 </div>
             </div>
 
@@ -45,12 +94,38 @@
                     <h3 id="game-title">Tebak Ayat</h3>
                     <div class="score-display">Skor: <span id="game-score">0</span></div>
                 </div>
-                <div id="game-question" class="arabic-text"></div>
+                <p id="session-progress" class="session-progress" role="status"></p>
+                <progress id="session-progress-bar" max="10" value="0" aria-label="Jumlah soal yang sudah dijawab"></progress>
+                <div id="quiz-audio-panel" class="quiz-audio-panel" hidden>
+                    <h4 id="quiz-audio-title" tabindex="-1">Dengarkan ayat, lalu pilih lanjutannya</h4>
+                    <p id="quiz-qari" class="audio-status"></p>
+                    <audio id="quiz-audio" controls preload="none" aria-labelledby="quiz-audio-title"></audio>
+                    <p id="quiz-audio-status" class="audio-status" role="status">Tekan play untuk mendengarkan. Pilihan jawaban terbuka setelah audio mulai terdengar.</p>
+                    <button id="retry-quiz-audio" class="audio-button" type="button" hidden>Muat ulang audio</button>
+                </div>
+                <div id="game-question" class="arabic-text" lang="ar" dir="rtl" tabindex="-1"></div>
                 <div id="game-options" class="options-container"></div>
-                <div id="game-feedback"></div>
+                <div id="game-feedback" role="status"></div>
                 <div class="game-actions">
                     <button id="btn-next" style="display: none;">Soal Berikutnya</button>
-                    <button id="btn-restart" class="secondary">Akhiri / Mulai Lagi</button>
+                    <button id="btn-restart" class="secondary">Kembali ke pilihan latihan</button>
+                </div>
+            </div>
+            <div id="murajaah-results" hidden>
+                <div class="eyebrow muted">EVALUASI LATIHAN</div>
+                <h2 id="results-title" tabindex="-1">Latihan selesai</h2>
+                <p id="results-context" class="mentor-description"></p>
+                <div class="result-stats">
+                    <div><strong id="result-correct">0</strong><span>Jawaban benar</span></div>
+                    <div><strong id="result-wrong">0</strong><span>Perlu diulang</span></div>
+                    <div><strong id="result-accuracy">0%</strong><span>Akurasi</span></div>
+                </div>
+                <p id="result-advice" class="result-advice"></p>
+                <div id="mistake-list" class="mistake-list"></div>
+                <div class="game-actions">
+                    <button id="retry-mistakes" class="primary-button" type="button">Ulangi soal yang salah</button>
+                    <button id="new-session" class="primary-button" type="button">Mulai 10 soal baru</button>
+                    <button id="results-back" class="audio-button" type="button">Pilih mode latihan</button>
                 </div>
             </div>
         </section>
