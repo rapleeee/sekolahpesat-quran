@@ -86,8 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (event) => {
         if (!surahPicker.contains(event.target)) setPickerOpen(false);
     });
-    surahPicker.addEventListener('focusout', (event) => {
-        if (!surahPicker.contains(event.relatedTarget)) setPickerOpen(false);
+    // Tutup karena perpindahan fokus hanya untuk navigasi keyboard.
+    // Browser sentuh dapat memindahkan fokus sebelum click pilihan diproses.
+    surahPicker.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab') return;
+        setTimeout(() => {
+            if (!surahPicker.contains(document.activeElement)) setPickerOpen(false);
+        }, 0);
     });
 
     // Event Listener Mode Game
@@ -133,7 +138,8 @@ function setPickerOpen(open) {
     if (open) {
         surahSearch.value = '';
         renderSurahOptions();
-        surahSearch.focus();
+        // Jangan memunculkan keyboard dan menggeser layar saat membuka di HP.
+        if (!window.matchMedia?.('(pointer: coarse)').matches) surahSearch.focus();
     }
 }
 

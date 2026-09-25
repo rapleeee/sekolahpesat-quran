@@ -1237,3 +1237,31 @@ body::after {
 #quiz-audio { display: block; width: 100%; margin-top: 16px; height: 44px; }
 #retry-quiz-audio { margin-top: 12px; }
 .murajaah-modes { flex-wrap: wrap; }
+
+/* Pisahkan lapisan dropdown dari panel sticky di dalam mode mushaf. */
+.reader-toolbar {
+    position: relative;
+    z-index: 6;
+}
+#quran-content {
+    position: relative;
+    isolation: isolate;
+    z-index: 0;
+}
+@media (pointer: coarse) {
+    .surah-dropdown {
+        position: static;
+        margin-top: 8px;
+    }
+    #surah-search {
+        font-size: 16px;
+    }
+    .surah-results {
+        max-height: 280px;
+        max-height: min(280px, 40dvh);
+        touch-action: pan-y;
+    }
+    .surah-option {
+        touch-action: manipulation;
+    }
+}
