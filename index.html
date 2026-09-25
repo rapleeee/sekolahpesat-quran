@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran PESAT</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>Quran PESAT</h1>
+        <nav>
+            <button id="nav-quran" class="active">Al-Qur'an</button>
+            <button id="nav-murajaah">Mentor Murajaah</button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Tampilan Menu Al-Qur'an -->
+        <section id="view-quran" class="view active-view">
+            <div class="surah-selector-container">
+                <label for="surah-select">Pilih Surat:</label>
+                <select id="surah-select">
+                    <option value="" disabled selected>Memuat daftar surat...</option>
+                </select>
+            </div>
+            <div id="quran-content">
+                <div class="placeholder-message">Silakan pilih surat untuk membaca.</div>
+            </div>
+        </section>
+
+        <!-- Tampilan Menu Mentor Murajaah -->
+        <section id="view-murajaah" class="view">
+            <div id="murajaah-setup">
+                <h2>Mentor Murajaah</h2>
+                <p id="murajaah-surah-info">Pilih surat di menu Al-Qur'an terlebih dahulu.</p>
+                <div class="murajaah-modes" style="display: none;">
+                    <button id="mode-tebak-ayat" class="mode-btn">Tebak Nomor Ayat</button>
+                    <button id="mode-sambung-ayat" class="mode-btn">Sambung Ayat</button>
+                </div>
+            </div>
+
+            <!-- Tampilan Saat Bermain (Game) -->
+            <div id="murajaah-game" style="display: none;">
+                <div class="game-header">
+                    <h3 id="game-title">Tebak Ayat</h3>
+                    <div class="score-display">Skor: <span id="game-score">0</span></div>
+                </div>
+                <div id="game-question" class="arabic-text"></div>
+                <div id="game-options" class="options-container"></div>
+                <div id="game-feedback"></div>
+                <div class="game-actions">
+                    <button id="btn-next" style="display: none;">Soal Berikutnya</button>
+                    <button id="btn-restart" class="secondary">Akhiri / Mulai Lagi</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
